@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Body } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { CreateUserDto } from 'src/users/dtos/CreateUser.dto';
 @Controller('users')
 export class UsersController {
   @Get()
@@ -26,5 +27,14 @@ export class UsersController {
   createUser(@Req() request: Request, @Res() response: Response) {
     console.log(request.body);
     response.send('User Created');
+  }
+
+  // using Body anomatore
+  @Post('create')
+  createUsers(@Body() userData: CreateUserDto) {
+    // we can use body decorator to type annoate my request
+    console.log(userData);
+    return {};
+    // response.send('User Created');
   }
 }

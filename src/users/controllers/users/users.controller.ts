@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, Body } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Body, Param } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateUserDto } from 'src/users/dtos/CreateUser.dto';
 @Controller('users')
@@ -36,5 +36,11 @@ export class UsersController {
     console.log(userData);
     return {};
     // response.send('User Created');
+  }
+  // nested as well
+  @Get(':id/:postId')
+  getUserById(@Param('id') id: string, @Param('postId') postId: string) {
+    console.log('id', id, postId);
+    return id;
   }
 }

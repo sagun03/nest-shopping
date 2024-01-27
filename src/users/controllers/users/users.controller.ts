@@ -6,26 +6,27 @@ import {
   Res,
   Body,
   Param,
-  Query,
+  // Query,
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
-  ParseBoolPipe
+  // ParseBoolPipe,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateUserDto } from 'src/users/dtos/CreateUser.dto';
+import { UsersService } from 'src/users/services/users/users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private userService: UsersService) {}
   @Get()
-  getUsers(
-    @Query('sortBy') sortBy: string,
-    @Query('sortDesc', ParseBoolPipe) sortDesc: boolean,
-  ) {
-    console.log(sortBy, sortDesc);
-    return {
-      userName: 'sagun',
-    };
+  getUsers() {
+    // @Query('sortDesc', ParseBoolPipe) sortDesc: boolean, // @Query('sortBy') sortBy: string,
+    return this.userService.fetchUsers();
+    // console.log(sortBy, sortDesc);
+    // return {
+    //   userName: 'sagun',
+    // };
   }
 
   @Get('posts')
@@ -53,7 +54,7 @@ export class UsersController {
   createUsers(@Body() userData: CreateUserDto) {
     // we can use body decorator to type annoate my request
     console.log(userData);
-    return {};
+    return this.userService.createUser(userData);
     // response.send('User Created');
   }
   @Get(':id')
